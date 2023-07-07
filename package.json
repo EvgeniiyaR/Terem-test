@@ -3,10 +3,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack serve",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "predeploy": "npm run build"
   },
-  "homepage": "https://github.com/EvgeniiyaR/Terem-test",
   "devDependencies": {
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",
