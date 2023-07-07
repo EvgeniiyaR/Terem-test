@@ -6,7 +6,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://github.com/EvgeniiyaR/Terem-test",
+  "homepage": "https://github.com/EvgeniiyaR/Terem-test/second-part",
   "devDependencies": {
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",

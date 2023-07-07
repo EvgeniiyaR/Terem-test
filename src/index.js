@@ -1,24 +1,68 @@
 import '../index.css';
 import {
-  buttonFirst,
-  buttonSecond,
-  block,
-  blockFirst,
-  blockMiddleFirst,
-  blockLastFirst,
-  blockLastSecond,
+  body,
+  form,
+  modalTitle,
+  templateSelect,
+  firstName,
 } from './utils/constants';
 
-const hiddenBlockFirst = () => {
-  blockFirst.classList.toggle('block__first_hidden');
+
+const generateSelect = (num) => {
+  for (let i = 1; i <= num; i++) {
+    const clone = templateSelect.content.cloneNode(true);
+    const label = clone.querySelector('.form-label');
+    const select = clone.querySelector('.form-control');
+    label.textContent = `${i}. Выберите число`;
+    label.setAttribute('for', `select${i}`);
+    select.name = `select${i}`;
+    select.id = `select${i}`;
+    form.insertBefore(clone, firstName);
+  }
 }
 
-const changeBlock = () => {
-  block.classList.toggle('block_change');
-  blockMiddleFirst.classList.toggle('block__middle-first_change');
-  blockLastFirst.classList.toggle('block__last-first_change');
-  blockLastSecond.classList.toggle('block__last-second_change');
+const serializeForm = (formNode) => {
+  const { elements } = formNode;
+  const obj = {};
+  Array.from(elements)
+    .filter((item) => !!item.name)
+    .map((element) => {
+      const { name, value } = element;
+      obj[name] = value;
+    });
+  return obj;
 }
 
-buttonFirst.addEventListener('click', hiddenBlockFirst);
-buttonSecond.addEventListener('click', changeBlock);
+const onSubmit = (e) => {
+  e.preventDefault();
+
+  if (body.querySelector('.pre') !== null) {
+    body.removeChild(body.querySelector('.pre'));
+  }
+
+  const bodyData = serializeForm(form);
+  const configObj = {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+  };
+
+  fetch('./server.js', configObj)
+  .then(() => {
+    $('.modal').modal('show');
+    modalTitle.textContent = 'Данные получены';
+  })
+  .catch((err) => {
+    modalTitle.textContent = `Возникла ошибка: ${err}`;
+  });
+
+  const pre = document.createElement('pre');
+  pre.innerHTML = JSON.stringify(bodyData, null, 2);
+  pre.classList.add('pre');
+  body.append(pre);
+}
+
+form.addEventListener('submit', (e) => onSubmit(e));
+generateSelect(5);
