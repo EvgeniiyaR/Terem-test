@@ -1,0 +1,15 @@
+.body {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pre {
+  display: flex;
+  justify-content: center;
+}
